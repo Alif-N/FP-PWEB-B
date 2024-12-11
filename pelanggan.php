@@ -1,3 +1,7 @@
+<?php
+require 'function.php'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,8 +10,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Data Pesanan</title>
+        <title>Data Pelanggan</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
@@ -55,47 +60,61 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Data Pesanan</h1>
+                        <h1 class="mt-4">Data Pelanggan</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Primary Card</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
+                                    <div class="card-body">Jumlah Pelanggan: </div>
                                 </div>
                             </div>
                         </div>
+
+                            <button type="button" class="btn btn-info mb-4" data-toggle="modal" data-target="#myModal">
+                                Tambah Pelanggan
+                            </button>                                      
+
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Data Pesanan
+                                Data Pelanggan
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>No</th>
+                                            <th>Nama Pelanggan</th>
+                                            <th>No Telepon</th>
+                                            <th>Alamat</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                    <?php
+                                        $get = mysqli_query($conn, "select * from pelanggan");
+                                        $i = 1;
+
+                                        while($p = mysqli_fetch_array($get))
+                                        {
+                                            $namaPelanggan = $p['namaPelanggan'];
+                                            $noTelp = $p['noTelp'];
+                                            $alamat = $p['alamat'];                                            
+                                    ?>
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <td><?=$i++;?></td>
+                                            <td><?=$namaPelanggan?></td>
+                                            <td><?=$noTelp?></td>
+                                            <td><?=$alamat?></td>
+                                            <td>Edit Delete</td>
                                         </tr>
+                                    <?php
+                                        }; // end of while
+                                    ?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -123,5 +142,38 @@
         <script src="assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>        
     </body>
+
+      <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+        
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Data Pelanggan</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            
+            <form method="post">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <input type="text" name="namaPelanggan" class="form-control" placeholder="Nama Pelanggan">
+                    <input type="num" name="noTelp" class="form-control mt-2" placeholder="No Telepon">
+                    <input type="text" name="alamat" class="form-control mt-2" placeholder="Alamat">  
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" name="tambahPelanggan">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+            
+            </div>
+        </div>
+    </div>
 </html>

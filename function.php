@@ -52,4 +52,67 @@ if(isset($_POST['tambahBarang']))
     }
 }
 
+if(isset($_POST['tambahPelanggan']))
+{
+    $namaPelanggan = $_POST['namaPelanggan'];
+    $noTelp = $_POST['noTelp'];
+    $alamat = $_POST['alamat'];
+
+    $insert = mysqli_query($conn, "insert into pelanggan (namaPelanggan, noTelp, alamat) values ('$namaPelanggan', '$noTelp', '$alamat')");
+
+    if($insert)
+    {
+        header('location:pelanggan.php');
+    } else
+    {
+        echo '
+        <script>
+            alert("Gagal Menambah Pelanggan Baru")
+            window.location.href="pelanggan.php"
+        </script>
+        ';
+    }
+}
+
+if(isset($_POST['tambahPesanan']))
+{
+    $idPelanggan = $_POST['idPelanggan'];
+
+    $insert = mysqli_query($conn, "insert into pesanan (idPelanggan) values ('$idPelanggan')");
+
+    if($insert)
+    {
+        header('location:index.php');
+    } else
+    {
+        echo '
+        <script>
+            alert("Gagal Menambah Pelanggan Baru")
+            window.location.href="index.php"
+        </script>
+        ';
+    }
+}
+
+if(isset($_POST['addProduk']))
+{
+    $idProduk = $_POST['idProduk'];
+    $idp = $_POST['idp'];
+    $qty = $_POST['qty'];
+
+    $insert = mysqli_query($conn, "insert into detailpesanan (idPesanan, idProduk, qty) values ('$idp', '$idProduk', '$qty')");
+
+    if($insert)
+    {
+        header('location:view.php?idp='.$idp);
+    } else
+    {
+        echo '
+        <script>
+            alert("Gagal Menambah Pelanggan Baru")
+            window.location.href="view.php?idp="'.$idp.'
+        </script>
+        ';
+    }
+}
 ?>
