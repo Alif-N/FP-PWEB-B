@@ -94,25 +94,97 @@ if(isset($_POST['tambahPesanan']))
     }
 }
 
+// Produk dipilih di pesanan
 if(isset($_POST['addProduk']))
 {
     $idProduk = $_POST['idProduk'];
-    $idp = $_POST['idp'];
-    $qty = $_POST['qty'];
+    $idp = $_POST['idp']; // idPesanan
+    $qty = $_POST['qty']; // jumlah
 
-    $insert = mysqli_query($conn, "insert into detailpesanan (idPesanan, idProduk, qty) values ('$idp', '$idProduk', '$qty')");
+    // Hitung stock barang
+    $hitung1 = mysqli_query($conn, "select * from produk where idProduk='$idProduk'");
+    $hitung2 = mysqli_fetch_array($hitung1);
+    $stocksekarang = $hitung2['stock']; // stock barang saat ini
 
-    if($insert)
-    {
-        header('location:view.php?idp='.$idp);
-    } else
-    {
+    // Cek apakah stock cukup
+    if($stocksekarang >= $qty){
+        // Kurangi stock yang dikeluarkan
+        $selisih = $stocksekarang - $qty;
+
+        // Jika stock cukup, update stock barang
+        $insert = mysqli_query($conn, "insert into detailpesanan (idPesanan, idProduk, qty) values ('$idp', '$idProduk', '$qty')");
+        $update = mysqli_query($conn, "update produk set stock='$selisih' where idProduk='$idProduk'");
+
+        if($insert&&$update){
+            header('location:view.php?idp='.$idp);
+        } else {
+            echo '
+            <script>
+                alert("Gagal Menambah Pelanggan Baru")
+                window.location.href="view.php?idp='.$idp.'"
+            </script>';
+        }
+    } else {
         echo '
         <script>
-            alert("Gagal Menambah Pelanggan Baru")
-            window.location.href="view.php?idp="'.$idp.'
+            alert("Stock barang tidak cukup")
+            window.location.href="view.php?idp='.$idp.'"
         </script>
         ';
     }
 }
+
+// Menambah barang masuk
+if (isset($_POST['barangMasuk'])){
+    $idProduk = $_POST['idProduk'];
+    $qty = $_POST['qty'];
+
+    $insertb = mysqli_query($conn, "insert into masuk (idProduk, qty) values('$idProduk', '$qty')");
+
+    if($insertb){
+        header('location:masuk.php');
+    } else {
+        echo '
+        <script>
+            alert("Gagal")
+            window.location.href="masuk.php"
+        </script>
+        ';
+    }
+}
+
+// Hapus produk pesanan
+if (isset($_POST['hapusProduk'])){
+    $idp = $_POST['idp'];
+    $idProduk = $_POST['idProduk'];
+    $idPesanan = $_POST['idPesanan'];
+
+    $cek1 = mysqli_query($conn, "select * from detailpesanan where idDetailPesanan='$idp'");
+    $cek2 = mysqli_fetch_array($cek1);
+    $qtysekarang = $cek2['qty'];
+
+    // Stock sekarang
+    $cek3 = mysqli_query($conn, "select * from produk where idProduk='$idp'");
+    $cek4 = mysqli_fetch_array($cek3);  
+    $stocksekarang = $cek4['stock'];
+
+    $hitung = $stocksekarang + $qtysekarang;
+
+    $update = mysqli_query($conn, "update produk set stock='$hitung' where idProduk='$idProduk'");
+    $hapus = mysqli_query($conn, "delete from detailpesanan where idProduk='$idProduk' and idDetailPesanan='$idp'");
+
+    if($update&&$hapus){
+        header('location:view.php?idp='.$idPesanan);
+    } else {
+        echo '
+        <script>
+            alert("Gagal menghapus barang");
+            window.location.href="view.php?idp='.$idPesanan.'"
+        </script>
+        ';
+    }
+}
+
 ?>
+
+

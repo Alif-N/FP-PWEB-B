@@ -1,5 +1,9 @@
 <?php
-require 'function.php'
+require 'ceklogin.php';
+
+// Hitung jumlah produk
+$h1 = mysqli_query($conn, "select * from produk");
+$h2 = mysqli_num_rows($h1); // jumlah produk
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +71,7 @@ require 'function.php'
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Jumlah Barang: </div>
+                                    <div class="card-body">Jumlah Barang: <?=$h2;?></div>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 <?php
-require 'function.php';
+require 'ceklogin.php';
 
 if(isset($_GET['idp']))
 {
@@ -107,19 +107,58 @@ if(isset($_GET['idp']))
 
                                         while($p = mysqli_fetch_array($get))
                                         {
+                                            $idProduk = $p['idProduk'];
+                                            $idDetailPesanan = $p['idDetailPesanan'];
                                             $qty = $p['qty'];
                                             $harga = $p['harga'];
                                             $namaProduk = $p['namaProduk'];
+                                            $deskripsi = $p['deskripsi'];
                                             $subtotal = $qty * $harga;
                                     ?>
                                         <tr>
                                             <td><?=$i++;?></td>
-                                            <td><?=$namaProduk?></td>
+                                            <td><?=$namaProduk?> (<?=$deskripsi?>)</td>
                                             <td>Rp<?=number_format($harga)?></td>
                                             <td><?=number_format($qty)?></td>
                                             <td>Rp<?=number_format($subtotal)?></td>
-                                            <td>Edit Delete</td>
+                                            <td>Edit 
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idProduk;?>">
+                                                    Hapus
+                                                </button>           
+                                            </td>
                                         </tr>
+
+                                          <!-- The Modal -->
+                                        <div class="modal fade" id="delete<?=$idProduk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Apakah anda ingin menghapus barang ini</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Apakah Anda Yakin ingin menghapus barang ini?
+                                                        <input type="hidden" name="idp" value="<?=$idDetailPesanan;?>">
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk;?>">
+                                                        <input type="hidden" name="idPesanan" value="<?=$idp;?>">
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="hapusProduk">Ya</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                
+                                                </div>
+                                            </div>
+                                        </div>   
                                     <?php
                                         }; // end of while
                                     ?>
@@ -184,7 +223,7 @@ if(isset($_GET['idp']))
                             $idProduk = $pl['idProduk'];
                     ?>
                     
-                    <option value="<?=$idProduk;?>"><?=$namaProduk;?> - <?=$deskripsi;?></option>
+                    <option value="<?=$idProduk;?>"><?=$namaProduk;?> - <?=$deskripsi;?> (Stock: <?=$stock;?>)</option>
 
                     <?php
                         }
@@ -192,7 +231,7 @@ if(isset($_GET['idp']))
 
                     </select>
 
-                    <input type="number" name="qty" class="form-control mt-4" placeholder="Jumlah">
+                    <input type="number" name="qty" class="form-control mt-4" placeholder="Jumlah" min='1' required>
                     <input type="hidden" name="idp" value="<?=$idp;?>">
                 </div>
                 

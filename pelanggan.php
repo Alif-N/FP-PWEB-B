@@ -1,5 +1,9 @@
 <?php
-require 'function.php'
+require 'ceklogin.php';
+
+// Hitung jumlah pelanggan
+$h1 = mysqli_query($conn, "select * from pelanggan");
+$h2 = mysqli_num_rows($h1); // jumlah pelanggan
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +71,7 @@ require 'function.php'
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Jumlah Pelanggan: </div>
+                                    <div class="card-body">Jumlah Pelanggan: <?=$h2;?></div>
                                 </div>
                             </div>
                         </div>
