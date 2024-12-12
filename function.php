@@ -159,6 +159,7 @@ if (isset($_POST['hapusProduk'])){
     $idProduk = $_POST['idProduk'];
     $idPesanan = $_POST['idPesanan'];
 
+    // cek qty sekarang
     $cek1 = mysqli_query($conn, "select * from detailpesanan where idDetailPesanan='$idp'");
     $cek2 = mysqli_fetch_array($cek1);
     $qtysekarang = $cek2['qty'];
@@ -185,6 +186,79 @@ if (isset($_POST['hapusProduk'])){
     }
 }
 
+if (isset($_POST['editBarang'])){
+    $namaProduk = $_POST['namaProduk'];
+    $idProduk = $_POST['idProduk'];
+    $deskripsi = $_POST['deskripsi'];
+    $harga = $_POST['harga'];
+
+    $query = mysqli_query($conn, "update produk set namaProduk='$namaProduk', deskripsi='$deskripsi', harga='$harga' where idProduk='$idProduk'");
+    
+    if($query){
+        header('location:stock.php');
+    } else {
+        echo '
+        <script>
+            alert("Gagal Edit barang");
+            window.location.href="stock.php"
+        </script>
+        ';
+    }
+}
+
+if (isset($_POST['hapusBarang'])){
+    $idProduk = $_POST['idProduk'];
+
+    $query = mysqli_query($conn, "delete from produk where idProduk='$idProduk'");
+    
+    if($query){
+        header('location:stock.php');
+    } else {
+        echo '
+        <script>
+            alert("Gagal Hapus barang");
+            window.location.href="stock.php"
+        </script>
+        ';
+    }
+}
+
+if (isset($_POST['editPelanggan'])){
+    $namaPelanggan = $_POST['namaPelanggan'];
+    $noTelp = $_POST['noTelp'];
+    $alamat = $_POST['alamat'];
+    $idPelanggan = $_POST['idPelanggan'];
+
+    $query = mysqli_query($conn, "update pelanggan set namaPelanggan='$namaPelanggan', noTelp='$noTelp', alamat='$alamat' where idPelanggan='$idPelanggan'");
+    
+    if($query){
+        header('location:pelanggan.php');
+    } else {
+        echo '
+        <script>
+            alert("Gagal Edit pelanggan");
+            window.location.href="pelanggan.php"
+        </script>
+        ';
+    }
+}
+
+if (isset($_POST['hapusPelanggan'])){
+    $idPelanggan = $_POST['idPelanggan'];
+
+    $query = mysqli_query($conn, "delete from pelanggan where idPelanggan='$idPelanggan'");
+    
+    if($query){
+        header('location:pelanggan.php');
+    } else {
+        echo '
+        <script>
+            alert("Gagal Edit pelanggan");
+            window.location.href="pelanggan.php"
+        </script>
+        ';
+    }
+}
 ?>
 
 

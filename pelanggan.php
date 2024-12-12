@@ -106,15 +106,84 @@ $h2 = mysqli_num_rows($h1); // jumlah pelanggan
                                         {
                                             $namaPelanggan = $p['namaPelanggan'];
                                             $noTelp = $p['noTelp'];
-                                            $alamat = $p['alamat'];                                            
+                                            $alamat = $p['alamat'];   
+                                            $idPelanggan = $p['idPelanggan'];                                         
                                     ?>
                                         <tr>
                                             <td><?=$i++;?></td>
                                             <td><?=$namaPelanggan?></td>
                                             <td><?=$noTelp?></td>
                                             <td><?=$alamat?></td>
-                                            <td>Edit Delete</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idPelanggan;?>">
+                                                    Edit
+                                                </button>  
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idPelanggan;?>">
+                                                    Delete
+                                                </button>                                                  
+                                            </td>
                                         </tr>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="edit<?=$idPelanggan;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah <?=$namaPelanggan?></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <input type="text" name="namaPelanggan" class="form-control" placeholder="Nama Pelanggan" value="<?=$namaPelanggan?>">
+                                                        <input type="text" name="noTelp" class="form-control mt-2" placeholder="No Telepon" value="<?=$noTelp?>">
+                                                        <input type="text" name="alamat" class="form-control mt-2" placeholder="Alamat" value="<?=$alamat?>"> 
+                                                        <input type="hidden" name="idPelanggan" value="<?=$idPelanggan?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="editPelanggan">Submit</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="delete<?=$idPelanggan;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus <?=$namaPelanggan?></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Apakah anda yakin untuk menghapus pelanggan ini?
+                                                        <input type="hidden" name="idPelanggan" value="<?=$idPelanggan?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="hapusPelanggan">Delete</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     <?php
                                         }; // end of while
                                     ?>

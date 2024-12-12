@@ -109,15 +109,82 @@ $h2 = mysqli_num_rows($h1); // jumlah produk
                                             $deskripsi = $p['deskripsi'];
                                             $harga = $p['harga'];
                                             $stock = $p['stock'];
+                                            $idProduk = $p['idProduk'];
                                     ?>
                                         <tr>
                                             <td><?=$i++;?></td>
                                             <td><?=$namaProduk?></td>
                                             <td><?=$deskripsi?></td>
-                                            <td><?=$harga?></td>
+                                            <td>Rp<?=number_format($harga)?></td>
                                             <td><?=$stock?></td>
-                                            <td>Edit Delete</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idProduk;?>">
+                                                    Edit
+                                                </button>  
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idProduk;?>">
+                                                    Delete
+                                                </button>  
+                                            </td>
                                         </tr>
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="edit<?=$idProduk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah <?=$namaProduk?></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <input type="text" name="namaProduk" class="form-control" placeholder="Nama Produk" value="<?=$namaProduk?>">
+                                                        <input type="text" name="deskripsi" class="form-control mt-2" placeholder="Deskripsi" value="<?=$deskripsi?>">
+                                                        <input type="num" name="harga" class="form-control mt-2" placeholder="Harga Produk" value="<?=$harga?>"> 
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="editBarang">Submit</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="delete<?=$idProduk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah <?=$namaProduk?></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Apakah anda yakin untuk menghapus barang ini?
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="hapusBarang">Submit</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>                                        
                                     <?php
                                         }; // end of while
                                     ?>
