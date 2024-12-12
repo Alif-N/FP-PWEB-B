@@ -81,7 +81,6 @@ require 'ceklogin.php';
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Produk</th>
-                                            <th>Deskripsi</th>
                                             <th>Jumlah</th>
                                             <th>Tanggal</th>
                                             <th>Aksi</th>
@@ -99,15 +98,84 @@ require 'ceklogin.php';
                                             $deskripsi = $p['deskripsi'];
                                             $qty = $p['qty'];
                                             $tanggal = $p['tanggalMasuk'];
+                                            $idMasuk = $p['idMasuk'];
+                                            $idProduk = $p['idProduk'];
                                     ?>
                                         <tr>
                                             <td><?=$i++;?></td>
-                                            <td><?=$namaProduk?></td>
-                                            <td><?=$deskripsi?></td>
+                                            <td><?=$namaProduk?> <?=$deskripsi?></td>
                                             <td><?=$qty?></td>
                                             <td><?=$tanggal?></td>
-                                            <td>Edit Delete</td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idMasuk;?>">
+                                                    Edit
+                                                </button>  
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idMasuk;?>">
+                                                    Delete
+                                                </button>                                                   
+                                            </td>
                                         </tr>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="edit<?=$idMasuk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah Data Barang Masuk</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <input type="text" name="namaProduk" class="form-control" placeholder="Nama Produk" value="<?=$namaProduk?> - <?=$deskripsi?>" disabled>
+                                                        <input type="number" name="qty" class="form-control mt-2" placeholder="Jumlah" value="<?=$qty?>"> 
+                                                        <input type="hidden" name="idMasuk" value="<?=$idMasuk?>"> 
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="editBarangMasuk">Submit</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="delete<?=$idMasuk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Data Barang Masuk</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        Apakah anda yakin untuk menghapus data ini?
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk?>"> 
+                                                        <input type="hidden" name="idMasuk" value="<?=$idMasuk?>"> 
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="hapusBarangMasuk">Delete</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>                                        
                                     <?php
                                         }; // end of while
                                     ?>

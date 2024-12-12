@@ -121,14 +121,49 @@ if(isset($_GET['idp']))
                                             <td>Rp<?=number_format($harga)?></td>
                                             <td><?=number_format($qty)?></td>
                                             <td>Rp<?=number_format($subtotal)?></td>
-                                            <td>Edit 
+                                            <td>
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$idProduk;?>">
+                                                    Edit
+                                                </button>                                                  
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$idProduk;?>">
                                                     Hapus
                                                 </button>           
                                             </td>
                                         </tr>
 
-                                          <!-- The Modal -->
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="edit<?=$idProduk;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                            
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah Data Detail Pesanan</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                                </div>
+                                                
+                                                <form method="post">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <input type="text" name="namaProduk" class="form-control" placeholder="Nama Produk" value="<?=$namaProduk?> - <?=$deskripsi?>" disabled>
+                                                        <input type="number" name="qty" class="form-control mt-2" placeholder="Jumlah" value="<?=$qty?>"> 
+                                                        <input type="hidden" name="idDetailPesanan" value="<?=$idDetailPesanan?>"> 
+                                                        <input type="hidden" name="idProduk" value="<?=$idProduk?>">
+                                                        <input type="hidden" name="idp" value="<?=$idp?>">
+                                                    </div>
+                                                    
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="editDetailPesanan">Submit</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>                                        
+
+                                        <!-- Delete Modal -->
                                         <div class="modal fade" id="delete<?=$idProduk;?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
